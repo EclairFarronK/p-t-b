@@ -1,0 +1,2 @@
+export
+    pip freeze > requirements.txt
