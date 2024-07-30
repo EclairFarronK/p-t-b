@@ -1,25 +1,30 @@
 import logging
 from uuid import uuid4
-from telegram.ext import InlineQueryHandler
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filters, MessageHandler
+from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, InlineQueryHandler
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+# proxy_url = "socks5://user:pass@127.0.0.1:1080"
+proxy_url = 'socks5://127.0.0.1:1080'
+token = '7294402442:AAEh75iyVxlC8V2nUcO7-J0fqze2tOTASbM'
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='I''m a bot, please talk to me!')
+    await context.bot.send_message(chat_id=update.effective_chat.id, text='I''m a bot, please talk to me! 长风几万里')
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
 
+# 将输入的小写转大写
 async def caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print('context.args=', context.args)
     text_caps = ' '.join(context.args).upper()
+    print('text_caps=', text_caps)
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
 
 
@@ -38,25 +43,28 @@ async def inline_caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.answer_inline_query(update.inline_query.id, results)
 
 
-# todo 暂时未定
 async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token('TOKEN').build()
-
+    application = ApplicationBuilder().token(token).proxy(
+        proxy_url).get_updates_proxy(proxy_url).build()
+    # /命令
     start_handler = CommandHandler('start', start)
     application.add_handler(start_handler)
 
+    # 普通消息
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
     application.add_handler(echo_handler)
 
+    # /命令
     caps_handler = CommandHandler('caps', caps)
     application.add_handler(caps_handler)
 
-    inline_caps_handler = InlineQueryHandler(inline_caps)
-    application.add_handler(inline_caps_handler)
+    # inline模式，暂时还用不到
+    # inline_caps_handler = InlineQueryHandler(inline_caps)
+    # application.add_handler(inline_caps_handler)
 
     # Other handlers
     unknown_handler = MessageHandler(filters.COMMAND, unknown)
