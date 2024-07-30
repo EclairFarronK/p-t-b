@@ -1,5 +1,9 @@
 export
     pip freeze > requirements.txt
 
+pip install python-telegram-bot[socks]
+
 todo
-    结构：
+    message的数据结构
+    加入的话，记录所有数据
+    数据持久化
