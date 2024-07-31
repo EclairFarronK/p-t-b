@@ -4,6 +4,14 @@ export
 pip install python-telegram-bot[socks]
 
 todo
-    message的数据结构
-    加入的话，记录所有数据
-    数据持久化
+    熟悉message的格式
+    加入的时候，导出所有数据
+    保存的数据结构
+    怎么将整个群里的消息都保存下来？
+
+function
+    1，加入group/channel后，将所有消息都保存下来。
+        需要邀请才能加入吗？
+        消息更新时，可以同步更新
+    2，u-b1-b2，将返回的消息保存
+        同一条消息不变，但是内容变化了，这个是怎么实现的？

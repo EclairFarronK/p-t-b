@@ -12,28 +12,13 @@ proxy_url = 'socks5://127.0.0.1:1080'
 token = '7294402442:AAEh75iyVxlC8V2nUcO7-J0fqze2tOTASbM'
 
 
-def error_handler(update, context):
-    """Log Errors caused by Updates."""
-    logging.error('Update "%s" caused error "%s"', update, context.error)
-
-
-def print_all_messages(update, context: ContextTypes.DEFAULT_TYPE):
-    print(update.to_json())
-    print(update.message.to_json())
-    # print(f"Received a message from {message.chat.id}: {message.text}")
-
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text='I''m a bot, please talk to me! 长风几万里')
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(update.to_json())
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
-
-
-async def echo1(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(update.to_json())
+    # todo 普通消息需要将消息保存
+    print(update.message.to_json())
     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
 
@@ -68,25 +53,16 @@ if __name__ == '__main__':
     application = ApplicationBuilder().token(token).proxy(
         proxy_url).get_updates_proxy(proxy_url).build()
 
-    # application.add_error_handler(error_handler)
-
-    # 打印所有消息
-    # message_handler = MessageHandler(filters.ALL, print_all_messages)
-    # application.add_handler(message_handler)
-
     # /命令
-    start_handler = CommandHandler('start', start)
+    start_handler = CommandHandler(command='start', callback=start)
     application.add_handler(start_handler)
 
     # 普通消息
-    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
+    echo_handler = MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=echo)
     application.add_handler(echo_handler)
 
-    echo_handler1 = MessageHandler(filters.TEXT & (~filters.COMMAND), echo1)
-    application.add_handler(echo_handler1)
-
     # /命令
-    caps_handler = CommandHandler('caps', caps)
+    caps_handler = CommandHandler(command='caps', callback=caps)
     application.add_handler(caps_handler)
 
     # inline模式，暂时还用不到
@@ -94,7 +70,7 @@ if __name__ == '__main__':
     # application.add_handler(inline_caps_handler)
 
     # Other handlers
-    unknown_handler = MessageHandler(filters.COMMAND, unknown)
+    unknown_handler = MessageHandler(filters=filters.COMMAND, callback=unknown)
     application.add_handler(unknown_handler)
 
     application.run_polling()
