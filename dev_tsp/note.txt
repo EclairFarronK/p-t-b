@@ -2,10 +2,10 @@ export
     pip freeze > requirements.txt
 
 pip install python-telegram-bot[socks]
+pip install python-telegram
 
 todo
     熟悉message的格式
-    加入的时候，导出所有数据
     保存的数据结构
     怎么将整个群里的消息都保存下来？
 
