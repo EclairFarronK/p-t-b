@@ -1,3 +1,6 @@
+git config --global --list
+git config --global --unset [key]
+git config --global --unset-all [key]
 git config --global https.proxy socks5 127.0.0.1:1080
 git push
 git pull
