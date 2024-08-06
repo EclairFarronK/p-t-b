@@ -1,0 +1,10 @@
+# 5820
+#api_id: 18289902
+#api_hash: 7cf3317d207df073973fd1eabea859f0
+# 8762
+api_id: 23932251
+api_hash: 33027be54903e2df9bc6963e36d23f5d
+proxy:
+  proto: socks5
+  ip: 127.0.0.1
+  port: 1080

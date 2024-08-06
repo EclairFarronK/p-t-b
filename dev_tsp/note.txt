@@ -2,7 +2,9 @@ export
     pip freeze > requirements.txt
 
 pip install python-telegram-bot[socks]
-pip install python-telegram
+    直接这样就不需要先pip install python-telegram-bot
+pip install telethon
+pip install python-socks[asyncio]
 
 todo
     熟悉message的格式
