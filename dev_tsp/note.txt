@@ -5,6 +5,7 @@ pip install python-telegram-bot[socks]
     直接这样就不需要先pip install python-telegram-bot
 pip install telethon
 pip install python-socks[asyncio]
+pip install pyyaml
 
 todo
     熟悉message的格式
