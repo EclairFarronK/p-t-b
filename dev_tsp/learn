@@ -1,5 +1,4 @@
 git config --global https.proxy socks5 127.0.0.1:1080
-    现在不开代理就没法拉去代码了
 git push
 git pull
 
