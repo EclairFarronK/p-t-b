@@ -33,6 +33,7 @@ async def main():
     #                                     link_preview=False)
     # print(message.raw_text)
     # await message.reply('Cool!')
+    # await message.delete()
 
     # Or send files, songs, documents, albums...
     # await client.send_file(5768415700, '../source/flower.jpeg')
@@ -41,16 +42,15 @@ async def main():
     # client.get_messages('5768415700')
     async with client:
         async for message in client.iter_messages(entity=5768415700, limit=None):
-            print(message.id)
+            print(message.id, message.text)
             print(message.to_json())
 
         # todo 还有没有选择方法？
         # if message.photo:
         #     path = await message.download_media()
         #     print('File saved to', path)
-        await client.run_until_disconnected()
+        # await client.run_until_disconnected()
 
-asyncio.get_event_loop().run_until_complete(main())
 
-# with client:
-#     client.loop.run_until_complete(main())
+if __name__ == '__main__':
+    asyncio.get_event_loop().run_until_complete(main())
