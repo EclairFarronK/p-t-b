@@ -1,5 +1,6 @@
 import base64
 
+# base64解码并写入文件
 encoded_data = 'ASgb01ToD1A5+tPBbt603ce/T0oMgUADoKQx0nJA70AAcUwNk7j17Cguc0AMUkggmngDjP3aiXsakbjqOKBiE4Bx3pm6nFhxgUwlc0ACE9RSmTPy5oooAiDgdDknpTCwBxyaKKQz'
 
 if __name__ == '__main__':

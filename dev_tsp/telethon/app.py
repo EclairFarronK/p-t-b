@@ -1,0 +1,32 @@
+import yaml
+import asyncio
+from telethon import TelegramClient, events
+
+with open('../config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+api_id = config['api_id']
+api_hash = config['api_hash']
+proxy = (config['proxy']['proto'], config['proxy']['ip'], config['proxy']['port'])
+client = TelegramClient(session='signing_in', api_id=api_id, api_hash=api_hash, proxy=proxy)
+
+
+async def main():
+    async with client:
+        # 测试启动情况
+        print((await client.get_me()).username)
+        message = await client.send_message('me', 'Hi!')
+        await asyncio.sleep(1)
+        await message.delete()
+
+        # todo 待添加各种事件
+        # @client.on(events.NewMessage(pattern='(?i)hi|hello'))
+        # async def handler(event):
+        #     await event.reply('hey')
+        #     await client.send_message(event.input_sender, 'Hi')
+
+        # 不加这个，client会停下来
+        await client.run_until_disconnected()
+
+
+if __name__ == '__main__':
+    asyncio.get_event_loop().run_until_complete(main())
