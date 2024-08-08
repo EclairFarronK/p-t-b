@@ -1,4 +1,4 @@
-db.createUser({user: 'root', pwd: '199409_aD', roles: [{role: "userAdminAnyDatabase", db: "admin"}]});
+db.createUser({user: 'tsp', pwd: '199409_aD', roles: [{role: "userAdminAnyDatabase", db: "admin"}]});
 db.system.users.find()
 
 use telegram_db;

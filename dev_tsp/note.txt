@@ -6,6 +6,7 @@ pip install python-telegram-bot[socks]
 pip install telethon
 pip install python-socks[asyncio]
 pip install pyyaml
+pip install pymongo
 
 todo
     熟悉message的格式

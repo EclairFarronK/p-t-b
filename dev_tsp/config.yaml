@@ -8,3 +8,8 @@ proxy:
   proto: socks5
   ip: 127.0.0.1
   port: 1080
+mongodb:
+  ip: 43.156.129.154
+  port: 27017
+  username: telegram_dev
+  password: 199409_aD
