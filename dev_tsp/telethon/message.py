@@ -15,6 +15,7 @@ async def main():
 
     # await client(SendMessageRequest('me', 'hello'))
     # await client.send_message('me', 'Hello, myself!')  # yourself
+    # await client.send_message(entity, 'Hello, myself!')  # entity
     # 7188701260
     # await client.send_message(5768415700, 'Hello, group!')  # chat ID
     # await client.send_message('+8615197415820', 'Hello, friend!')  # contacts
@@ -33,7 +34,7 @@ async def main():
     # You can print the message history of any chat:
     # client.get_messages('5768415700')
     async with client:
-        async for message in client.iter_messages(entity=5768415700, limit=None):
+        async for message in client.iter_messages(entity=1002177155167, limit=None):
             print(message.id, message.text)
             print(message.to_json())
 
