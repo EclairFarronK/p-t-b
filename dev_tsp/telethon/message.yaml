@@ -1,0 +1,26 @@
+{
+  "action": {
+    "_": "MessageActionHistoryClear"
+  },
+  #可能为空，如果是PeerUser，下面的user_id就是
+  "from_id": {
+    "_": "PeerUser",
+    "user_id": 7188701260
+  },
+  #和谁的对话
+  "peer_id": {
+    "_": "PeerUser",
+    "user_id": 5768415700
+  },
+  "fwd_from": {
+    "_": "MessageFwdHeader",
+    "from_id": {
+      "_": "PeerUser",
+      "user_id": 7188701260
+    }
+  },
+  "reply_to": {
+    "_": "MessageReplyHeader",
+    "reply_to_msg_id": 2231
+  }
+}
