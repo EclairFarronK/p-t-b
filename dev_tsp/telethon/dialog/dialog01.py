@@ -6,6 +6,7 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
+# update session
 # 同时用来记录所有的channel，megagroup
 async def main():
     async with client:
