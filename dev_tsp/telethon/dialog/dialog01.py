@@ -6,39 +6,43 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
-# 同时用来记录所有的Chat，channel，megagroup
+# 同时用来记录所有的channel，megagroup
 async def main():
     async with client:
         async for dialog in client.iter_dialogs():
             try:
-                # todo 只记录Chat，channel，megagroup 3种
-                # todo 记录内容：title，username，type
-                # todo 如果username为none，就从usernames中拿第一个
                 entity = dialog.entity
                 if isinstance(entity, User):
-                    #  or entity.first_name
-                    print(f"Dialog with User: {entity.username}")
+                    print(f"Dialog with User: {entity.to_json()}")
                 elif isinstance(entity, Chat):
-                    # todo record
-                    print(f"Dialog with Chat: {entity.title}")
+                    print(f"Dialog with Chat: {entity.to_json()}")
                 elif isinstance(entity, Channel):
                     if entity.megagroup:
-                        # todo record
-                        print(f"Dialog with megagroup: {entity.title}")
+                        # 可能有多个名字的情况
+                        username = entity.username or entity.usernames[0].username
+                        await save(entity.title, username, 'megagroup')
+                        print(f'Dialog with megagroup: {entity.to_json()}')
                     elif entity.broadcast:
-                        # todo record
-                        print(f"Dialog with broadcast: {entity.title}")
+                        # 只有一个名字
+                        await save(entity.title, entity.username, 'broadcast')
+                        print(f'Dialog with broadcast: {entity.to_json()}')
                     else:
                         # 这种情况应该不会出现
-                        print("Unknown dialog type Channel")
+                        print('Unknown dialog type Channel')
                 else:
                     # 这种情况应该不会出现
-                    print("Unknown dialog type")
-
+                    print('Unknown dialog type')
             except Exception as e:
                 print(f'An error occurred: {e}')
 
         await client.run_until_disconnected()
+
+
+async def save(title, username, type):
+    message_json = {'title': title,
+                    'username': username,
+                    'type': type}
+    db.chat_channel_megagroup.insert_one(message_json)
 
 
 if __name__ == '__main__':
