@@ -38,6 +38,7 @@ async def main():
         await client.run_until_disconnected()
 
 
+# todo 在save的时候，如果message_json中的username已经有了，就不重复插入
 async def save(title, username, type):
     message_json = {'title': title,
                     'username': username,
@@ -47,19 +48,3 @@ async def save(title, username, type):
 
 if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(main())
-
-# entity = 5768415700
-# # todo 异步任务在外面定义一个计数器会影响效率吗？
-# async for message in client.iter_messages(entity=entity, limit=None):
-#     print(message.to_json())
-#     print(message.from_id)
-#     print(message.text)
-#     # 在哪个dialog，id，text，link
-#     # todo 有link了直接跳转过去，好像
-#     # todo 提高效率，先批量保存到内存中，然后批量存到MongoDB
-#     message_json = {"entity": entity,
-#                     "id": message.id,
-#                     # rguo1
-#                     "from_id": message.from_id,
-#                     "text": message.text, }
-#     # db.dialog.insert_one(message_json)
