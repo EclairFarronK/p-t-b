@@ -1,0 +1,1 @@
+An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)
