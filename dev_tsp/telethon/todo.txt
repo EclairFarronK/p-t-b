@@ -1,5 +1,7 @@
 todo
-    保存名字加url
+    怎么保存url+
     可以根据输入内容来查找
     message
         保存消息
+    使用MongoDB注意事项：
+        在搜索时，搜索channel，group，chat，注意使用索引来提高搜索效率

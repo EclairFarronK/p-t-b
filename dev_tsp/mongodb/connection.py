@@ -1,7 +1,11 @@
+import os
 import yaml
 from pymongo import MongoClient
 
-with open('../config.yaml', 'r') as file:
+b_dir = os.path.dirname(os.path.abspath(__file__))
+config = os.path.join(b_dir, '../config.yaml')
+
+with open(config, 'r') as file:
     config = yaml.safe_load(file)
 username = config['mongodb']['username']
 password = config['mongodb']['password']
