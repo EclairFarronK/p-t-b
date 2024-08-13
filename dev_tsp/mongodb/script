@@ -1,12 +1,3 @@
-db.createUser({user: 'tsp', pwd: '199409_aD', roles: [{role: "userAdminAnyDatabase", db: "admin"}]});
-db.system.users.find()
-
-use telegram_db;
-db.createUser({user: 'telegram_dev', pwd: '199409_aD', roles: [{role: "readWrite", db: "telegram_db"}]});
-
-
-
-db.createUser({user: 'telegram_dev', pwd: '199409_aD', roles: [{role: "readWrite", db: "telegram_db"}]});
 db.system.users.find()
 use telegram_db;
 use admin;

@@ -7,7 +7,7 @@ async def main():
     async with client:
         # You can print the message history of any chat:
         # client.get_messages('5768415700')
-        entity = await client.get_entity(5768415700)
+        entity = await client.get_entity('@jisou')
         async for message in client.iter_messages(entity=entity, limit=None):
             print(message.to_json())
 

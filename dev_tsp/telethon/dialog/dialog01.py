@@ -1,4 +1,6 @@
+import time
 import asyncio
+from datetime import datetime
 from dev_tsp.telethon.signing_in import client
 from telethon.tl.types import User, Chat, Channel
 from dev_tsp.mongodb.connection import mongoClient
@@ -19,33 +21,45 @@ async def main():
                 elif isinstance(entity, Chat):
                     print(f"Dialog with Chat: {entity.to_json()}")
                 elif isinstance(entity, Channel):
+                    # 获取username
+                    if entity.username:
+                        username = entity.username
+                    elif entity.usernames:
+                        username = entity.usernames[0].username
+                    else:
+                        username = str(int(time.time()))
+
+                    # 获取type
                     if entity.megagroup:
-                        # 可能有多个名字的情况
-                        username = entity.username or entity.usernames[0].username
-                        await save(entity.title, username, 'megagroup')
                         print(f'Dialog with megagroup: {entity.to_json()}')
+                        type = 'megagroup'
                     elif entity.broadcast:
-                        # 只有一个名字
-                        await save(entity.title, entity.username, 'broadcast')
                         print(f'Dialog with broadcast: {entity.to_json()}')
+                        type = 'broadcast'
                     else:
                         # 这种情况应该不会出现
                         print('Unknown channel type')
+
+                    # 保存数据
+                    await save(entity.title, username, type)
                 else:
                     # 这种情况应该不会出现
                     print('Unknown entity type')
+
             except Exception as e:
                 print(f'An error occurred: {e}')
 
         await client.run_until_disconnected()
 
 
-# todo 在save的时候，如果message_json中的username已经有了，就不重复插入
 async def save(title, username, type):
     message_json = {'title': title,
                     'username': username,
-                    'type': type}
-    db.chat_channel_megagroup.insert_one(message_json)
+                    'type': type,
+                    'create_time': datetime.now().replace(microsecond=0),
+                    'update_time': datetime.now().replace(microsecond=0),
+                    'state': 1}
+    db.chat_channel_megagroup_01.insert_one(message_json)
 
 
 if __name__ == '__main__':
