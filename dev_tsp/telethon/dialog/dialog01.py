@@ -27,7 +27,7 @@ async def main():
                     elif entity.usernames:
                         username = entity.usernames[0].username
                     else:
-                        username = str(int(time.time()))
+                        username = 'standard' + str(int(time.time()))
 
                     # 获取type
                     if entity.megagroup:
