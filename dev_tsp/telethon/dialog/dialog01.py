@@ -59,7 +59,7 @@ async def save(title, username, type):
                     'create_time': datetime.now().replace(microsecond=0),
                     'update_time': datetime.now().replace(microsecond=0),
                     'state': 1}
-    db.chat_channel_megagroup_01.insert_one(message_json)
+    db.chat_channel_megagroup.insert_one(message_json)
 
 
 if __name__ == '__main__':
