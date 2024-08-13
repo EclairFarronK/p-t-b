@@ -6,6 +6,7 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
+# todo 什么时候run？暂时可以manual
 # update session
 # 同时用来记录所有的channel，megagroup
 async def main():
@@ -29,10 +30,10 @@ async def main():
                         print(f'Dialog with broadcast: {entity.to_json()}')
                     else:
                         # 这种情况应该不会出现
-                        print('Unknown dialog type Channel')
+                        print('Unknown channel type')
                 else:
                     # 这种情况应该不会出现
-                    print('Unknown dialog type')
+                    print('Unknown entity type')
             except Exception as e:
                 print(f'An error occurred: {e}')
 
