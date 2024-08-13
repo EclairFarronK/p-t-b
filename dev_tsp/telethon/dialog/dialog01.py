@@ -1,4 +1,4 @@
-import time
+import uuid
 import asyncio
 from datetime import datetime
 from dev_tsp.telethon.signing_in import client
@@ -21,14 +21,6 @@ async def main():
                 elif isinstance(entity, Chat):
                     print(f"Dialog with Chat: {entity.to_json()}")
                 elif isinstance(entity, Channel):
-                    # 获取username
-                    if entity.username:
-                        username = entity.username
-                    elif entity.usernames:
-                        username = entity.usernames[0].username
-                    else:
-                        username = 'standard' + str(int(time.time()))
-
                     # 获取type
                     if entity.megagroup:
                         print(f'Dialog with megagroup: {entity.to_json()}')
@@ -40,8 +32,19 @@ async def main():
                         # 这种情况应该不会出现
                         print('Unknown channel type')
 
-                    # 保存数据
-                    await save(entity.title, username, type)
+                    # 获取username
+                    if entity.username:
+                        username = entity.username
+                        # 保存数据
+                        await save(entity.title, username, type)
+                    elif entity.usernames:
+                        username = entity.usernames[0].username
+                        # 保存数据
+                        await save(entity.title, username, type)
+                    else:
+                        # todo 暂时不保存
+                        # username = 'standard' + str(uuid.uuid1())
+                        print('Unknown entity username')
                 else:
                     # 这种情况应该不会出现
                     print('Unknown entity type')
