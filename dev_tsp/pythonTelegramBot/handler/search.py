@@ -7,6 +7,7 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
+# todo 随意切换，然后查询不同的数据库
 # 参数为list，返回一个
 def assemble(result_list: List[dict]) -> str:
     message = 'result:\n'
