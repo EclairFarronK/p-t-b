@@ -1,0 +1,11 @@
+proxy:
+  proto: socks5
+  ip: 127.0.0.1
+  port: 1080
+mongodb:
+  ip: 43.156.129.154
+  port: 27017
+  username: telegram_dev
+  password: 199409_aD
+bot:
+  token01: 7294402442:AAEh75iyVxlC8V2nUcO7-J0fqze2tOTASbM

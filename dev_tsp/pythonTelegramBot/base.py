@@ -1,25 +1,32 @@
+import yaml
 import logging
 from uuid import uuid4
+from handler.search import search
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, InlineQueryHandler
+from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler
+
+with open('./config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+    token = config['bot']['token01']
+    proto = config['proxy']['proto']
+    ip = config['proxy']['ip']
+    port = config['proxy']['port']
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-# proxy_url = "socks5://user:pass@127.0.0.1:1080"
-proxy_url = 'socks5://127.0.0.1:1080'
-token = '7294402442:AAEh75iyVxlC8V2nUcO7-J0fqze2tOTASbM'
+proxy = f'{proto}://{ip}:{port}'
+bot_token = token
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text='I''m a bot, please talk to me! 长风几万里')
 
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # todo 普通消息需要将消息保存
-    print(update.message.to_json())
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+# async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     print(update.message.to_json())
+#     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
 
 # 将输入的小写转大写
@@ -50,15 +57,15 @@ async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(token).proxy(
-        proxy_url).get_updates_proxy(proxy_url).build()
+    application = ApplicationBuilder().token(bot_token).proxy(
+        proxy).get_updates_proxy(proxy).build()
 
     # /命令
     start_handler = CommandHandler(command='start', callback=start)
     application.add_handler(start_handler)
 
     # 普通消息
-    echo_handler = MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=echo)
+    echo_handler = MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=search)
     application.add_handler(echo_handler)
 
     # /命令
@@ -68,6 +75,9 @@ if __name__ == '__main__':
     # inline模式，暂时还用不到
     # inline_caps_handler = InlineQueryHandler(inline_caps)
     # application.add_handler(inline_caps_handler)
+
+    # todo 启动之后，输入关键词，查询数据库，然后返回
+    # todo 能查询group，channel，text
 
     # Other handlers
     unknown_handler = MessageHandler(filters=filters.COMMAND, callback=unknown)

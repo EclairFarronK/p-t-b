@@ -11,6 +11,9 @@ async def main():
         await asyncio.sleep(1)
         await message.delete()
 
+        # todo
+
+
         # todo 待添加各种事件
         # @client.on(events.NewMessage(pattern='(?i)hi|hello'))
         # async def handler(event):
