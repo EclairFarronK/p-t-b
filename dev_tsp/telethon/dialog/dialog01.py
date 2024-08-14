@@ -1,4 +1,3 @@
-import uuid
 import asyncio
 from datetime import datetime
 from dev_tsp.telethon.signing_in import client

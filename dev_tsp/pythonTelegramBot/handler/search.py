@@ -13,7 +13,7 @@ def assemble(result_list: List[dict]) -> str:
     for i in result_list:
         title = i.get('title')
         username = i.get('username')
-        url = 'http://t.me/' + username
+        url = 'https://t.me/' + username
         message = message + f'[{title}]({url})\n'
     return message
 
