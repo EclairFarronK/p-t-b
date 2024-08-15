@@ -36,5 +36,5 @@ def save(usernames: List[dict]):
 
 
 if __name__ == '__main__':
-    usernames = scan_links_from_md('../README.md')
+    usernames = scan_links_from_md('README.md')
     save(usernames)
