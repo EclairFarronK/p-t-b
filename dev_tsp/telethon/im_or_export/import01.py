@@ -43,7 +43,8 @@ async def main():
                     # 这种情况应该不会出现
                     print('Unknown entity type')
             except Exception as e:
-                # 异常先不处理，因为有可能是telegram限制了frequency
+                # todo 异常先不处理，因为有可能是telegram限制了frequency
+                # todo 查看不同异常
                 print(f'An error occurred: {username}-----{e}')
 
         await client.run_until_disconnected()
@@ -55,7 +56,7 @@ async def update(username: str, title: str, type: str):
     message_json = {'$set': {'title': title,
                              'type': type,
                              'update_time': dt}}
-    db.chat_channel_megagroup_test.update_one({'username': username}, message_json)
+    db.chat_channel_megagroup.update_one({'username': username}, message_json)
 
 
 if __name__ == '__main__':

@@ -1,2 +1,9 @@
 An error occurred: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by SendMessageRequest)
 An error occurred: E11000 duplicate key error collection: telegram_db.chat_channel_megagroup index: username_1 dup key: { username: "zhenwei011" }, full error: {'index': 0, 'code': 11000, 'errmsg': 'E11000 duplicate key error collection: telegram_db.chat_channel_megagroup index: username_1 dup key: { username: "zhenwei011" }', 'keyPattern': {'username': 1}, 'keyValue': {'username': 'zhenwei011'}}
+
+Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+No user has "yizheshijie" as username
+'User' object has no attribute 'title'
+    Stickers
+    aiso
+A wait of 86014 seconds is required (caused by ResolveUsernameRequest)
