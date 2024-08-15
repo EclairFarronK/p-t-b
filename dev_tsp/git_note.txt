@@ -1,5 +1,7 @@
 git config --global --list
-git config --global --unset https.proxy
+git config --global user.name [name]
+git config --global user.email [email]
+git config --global --unset [key]
 git config --global --unset-all [key]
 git config --global https.proxy socks5 127.0.0.1:1080
 git push
