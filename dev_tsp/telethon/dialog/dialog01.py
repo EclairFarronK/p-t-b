@@ -7,7 +7,7 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
-# todo 什么时候run？暂时可以manual
+# todo 暂时每天手动一次
 # update session
 # 同时用来记录所有的channel，megagroup
 async def main():
@@ -41,7 +41,7 @@ async def main():
                         # 保存数据
                         await save(entity.title, username, type)
                     else:
-                        # todo 暂时不保存
+                        # todo 暂时不保存没有username的
                         # username = 'standard' + str(uuid.uuid1())
                         print('Unknown entity username')
                 else:
@@ -55,11 +55,12 @@ async def main():
 
 
 async def save(title, username, type):
+    dt = str(datetime.now().replace(microsecond=0))
     message_json = {'title': title,
                     'username': username,
                     'type': type,
-                    'create_time': datetime.now().replace(microsecond=0),
-                    'update_time': datetime.now().replace(microsecond=0),
+                    'create_time': dt,
+                    'update_time': dt,
                     'state': 1}
     db.chat_channel_megagroup.insert_one(message_json)
 

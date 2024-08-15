@@ -5,17 +5,11 @@ show dbs;
 db.dropDatabase();
 db;
 db.dropUser("telegram_dev")
-
 show collections
-db.collection.drop()
-db.collection.insertMany({"name":"tsp"},)
-db.collection.insertOne({"name":"1"})
 db.collection.find()
-
 db.entity.find()
 db.collection.findOne()
 
-djdtgcqwe
-freetuya
-gaochao5
-toupaidao
+
+db.chat_channel_megagroup.createIndex({ username: 1 }, { unique: true })
+db.chat_channel_megagroup.drop()

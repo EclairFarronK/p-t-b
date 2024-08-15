@@ -7,4 +7,4 @@ db.createUser({user: 'tsp', pwd: '199409_aD', roles: [{role: "userAdminAnyDataba
 登录tsp
 创建用户
 db.createUser({user: 'telegram_dev', pwd: '199409_aD', roles: [{role: "readWrite", db: "telegram_db"}]});
-db.chat_channel_megagroup.createIndex({ username: 1 }, { unique: true })
+db.chat_channel_megagroup_test.createIndex({ username: 1 }, { unique: true })

@@ -3,7 +3,7 @@ import yaml
 from telethon import TelegramClient
 
 # 以后切换账号修改这里就行了
-account = 'tsp_8762'
+account = 'tsp_5820'
 
 b_dir = os.path.dirname(os.path.abspath(__file__))
 config = os.path.join(b_dir, '../config.yaml')
