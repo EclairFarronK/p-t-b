@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 from dev_tsp.telethon.signing_in import client
 from telethon.tl.types import User, Chat, Channel
 from dev_tsp.mongodb.connection import mongoClient
@@ -6,11 +7,12 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
+# todo 不使用一次性insert数据库
 async def main():
     # count = db.chat_channel_megagroup_test.count_documents({'title': {"$exists": False}})
     # count = db.chat_channel_megagroup_test.count_documents({'title': None})
     # print(count)
-    documents = db.chat_channel_megagroup_test.find({'title': None, "state": 1}, {'_id': 0, 'username': 1})
+    documents = db.chat_channel_megagroup.find({'title': None, "state": 1}, {'_id': 0, 'username': 1})
     documents_list = list(documents)
     async with client:
         i = 0
@@ -29,9 +31,11 @@ async def main():
                     if entity.megagroup:
                         # print(f'Dialog with megagroup: {entity.title}')
                         type = 'megagroup'
+                        await update(username, entity.title, type)
                     elif entity.broadcast:
                         # print(f'Dialog with broadcast: {entity.title}')
                         type = 'broadcast'
+                        await update(username, entity.title, type)
                     else:
                         # 这种情况应该不会出现
                         print('Unknown channel type')
@@ -39,11 +43,19 @@ async def main():
                     # 这种情况应该不会出现
                     print('Unknown entity type')
             except Exception as e:
-                # todo 如果有异常，就将state改为0，最好也是一次性插入
+                # 异常先不处理，因为有可能是telegram限制了frequency
                 print(f'An error occurred: {username}-----{e}')
 
-            # todo 将所有数据组装起来，一次性插入到MongoDB中去
         await client.run_until_disconnected()
+
+
+async def update(username: str, title: str, type: str):
+    dt = str(datetime.now().replace(microsecond=0))
+    # $inc（递增字段值）、$unset（删除字段）、$push（数组追加）
+    message_json = {'$set': {'title': title,
+                             'type': type,
+                             'update_time': dt}}
+    db.chat_channel_megagroup_test.update_one({'username': username}, message_json)
 
 
 if __name__ == '__main__':
