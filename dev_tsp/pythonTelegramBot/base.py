@@ -1,9 +1,9 @@
 import yaml
 import logging
 from uuid import uuid4
-from handler.search import search
+from handler.search import search, startt, button
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler
+from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, CallbackQueryHandler
 
 with open('./config.yaml', 'r') as file:
     config = yaml.safe_load(file)
@@ -61,23 +61,23 @@ if __name__ == '__main__':
         proxy).get_updates_proxy(proxy).build()
 
     # /命令
-    start_handler = CommandHandler(command='start', callback=start)
-    application.add_handler(start_handler)
+    application.add_handler(CommandHandler(command='start', callback=start))
 
     # 普通消息
-    echo_handler = MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=search)
-    application.add_handler(echo_handler)
+    application.add_handler(MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=search))
 
     # /命令
-    caps_handler = CommandHandler(command='caps', callback=caps)
-    application.add_handler(caps_handler)
+    application.add_handler(CommandHandler(command='caps', callback=caps))
 
     # inline模式，暂时还用不到
     # inline_caps_handler = InlineQueryHandler(inline_caps)
     # application.add_handler(inline_caps_handler)
 
-    # todo 启动之后，输入关键词，查询数据库，然后返回
-    # todo 能查询group，channel，text
+    # 命令处理器
+    application.add_handler(CommandHandler('startt', callback=startt))
+
+    # 回调查询处理器
+    application.add_handler(CallbackQueryHandler(button))
 
     # Other handlers
     unknown_handler = MessageHandler(filters=filters.COMMAND, callback=unknown)
