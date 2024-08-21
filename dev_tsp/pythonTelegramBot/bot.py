@@ -1,7 +1,7 @@
 import yaml
 import logging
 from uuid import uuid4
-from handler.search import search, startt, button
+from handler.search import search
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, CallbackQueryHandler
 
@@ -21,12 +21,7 @@ bot_token = token
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='I''m a bot, please talk to me! 长风几万里')
-
-
-# async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     print(update.message.to_json())
-#     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text='I''m a bot, please talk to me!')
 
 
 # 将输入的小写转大写
@@ -72,12 +67,6 @@ if __name__ == '__main__':
     # inline模式，暂时还用不到
     # inline_caps_handler = InlineQueryHandler(inline_caps)
     # application.add_handler(inline_caps_handler)
-
-    # 命令处理器
-    application.add_handler(CommandHandler('startt', callback=startt))
-
-    # 回调查询处理器
-    application.add_handler(CallbackQueryHandler(button))
 
     # Other handlers
     unknown_handler = MessageHandler(filters=filters.COMMAND, callback=unknown)

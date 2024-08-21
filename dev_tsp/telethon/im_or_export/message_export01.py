@@ -1,15 +1,17 @@
 import asyncio
 from dev_tsp.telethon.signing_in import client
 
+username = '@sosoZHbot'
 
-# 用来测试发送链接
+
+# 根据username导出message
 async def main():
     async with client:
-        # You can print the message history of any chat:
-        # client.get_messages('5768415700')
-        entity = await client.get_entity('@Server699')
+        entity = await client.get_entity(username)
         async for message in client.iter_messages(entity=entity, limit=None):
-            print(message.to_json())
+            entity_text = message.raw_text[5:5 + 28]
+            # print(f"Entity: {get_display_name(entity)}, Text: {entity_text}")
+            print(f'Text: {entity_text}')
 
         await client.run_until_disconnected()
 

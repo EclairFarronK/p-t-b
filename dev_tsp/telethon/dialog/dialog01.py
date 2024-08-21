@@ -8,7 +8,6 @@ db = mongoClient['telegram_db']
 
 
 # todo 暂时每天手动一次
-# update session
 # 同时用来记录所有的channel，megagroup
 async def main():
     async with client:
@@ -16,9 +15,9 @@ async def main():
             try:
                 entity = dialog.entity
                 if isinstance(entity, User):
-                    print(f"Dialog with User: {entity.to_json()}")
+                    print(f'Dialog with User: {entity.to_json()}')
                 elif isinstance(entity, Chat):
-                    print(f"Dialog with Chat: {entity.to_json()}")
+                    print(f'Dialog with Chat: {entity.to_json()}')
                 elif isinstance(entity, Channel):
                     # 获取type
                     if entity.megagroup:

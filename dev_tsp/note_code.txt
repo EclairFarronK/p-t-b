@@ -1,0 +1,11 @@
+bit
+1 byte = 8 bit
+ASCII:
+    1 char = 1 byte
+GBK:
+    兼容ASCII
+    1 char = 2 byte
+Unicode:
+    兼容ASCII
+    UTF-32:
+    UTF-8:
