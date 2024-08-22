@@ -1,3 +1,5 @@
+import asyncio
+import re
 from typing import List
 from telegram.constants import ParseMode
 from dev_tsp.mongodb.connection import mongoClient
@@ -19,23 +21,37 @@ def assemble(result_list: List[dict]) -> str:
     message = 'result:\n'
     for i in result_list:
         title = i.get('title')
+        title = escape(title)
+
+        count = i.get('count')
+        count = escape(count)
+
         username = i.get('username')
         url = 'https://t.me/' + username
-        message = message + f'[{title}]({url})\n'
+        message = message + f'[{title}\-\-{count}]({url})\n'
     return message
+
+
+def escape(string: str) -> str:
+    return re.sub(r'([\(\)\-\.])', r'\\\1', string)
 
 
 # 查询数据库，然后将消息返回
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
+    # send_message
     try:
-        # todo 7188701260
-        # todo 告诉那边是搜索什么
         await context.bot.send_message(chat_id=7188701260, text=text)
     except Exception as e:
         print(f'An error occurred: {e}')
-    # message、group/channel
-    result_list = list(db.chat_channel_megagroup.find({'title': {'$regex': f'{text}'}}).limit(1))
+
+    # todo sleep
+    await asyncio.sleep(delay=2)
+
+    # search
+    result_list = list(
+        db.chat_channel_megagroup_test.find({'title': {'$regex': f'{text}'}},
+                                            {'_id': 0, 'title': 1, 'count': 1, 'username': 1}).limit(20))
     message = assemble(result_list)
 
     # todo 最好先设置一个返回的模板，到时候直接往里面填就行了
