@@ -1,3 +1,4 @@
 创建数据库脚本：
-    db.chat_channel_megagroup.createIndex({ username: 1 }, { unique: true })
-    db.dialog_media.createIndex({ dialog_id: 1, }, { unique: true })
+    : 1表示升序降序
+    db.chat_channel_megagroup.createIndex({username: 1}, {unique: true})
+    db.entity_media.createIndex({entity_id: 1, media_id: 1}, {unique: true})

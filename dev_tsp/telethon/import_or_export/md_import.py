@@ -27,7 +27,7 @@ def save(usernames: List[dict]):
              'state': 1} for username in
             usernames]
     try:
-        # ordered=Falsez
+        # ordered=False避免单个失败rollback
         result = db.chat_channel_megagroup.insert_many(data, ordered=False)
         print('Inserted IDs:', result.inserted_ids)
     except Exception as e:

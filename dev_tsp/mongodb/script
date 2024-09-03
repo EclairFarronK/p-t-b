@@ -11,5 +11,4 @@ db.entity.find()
 db.collection.findOne()
 
 
-db.media_message_forward.createIndex({ dialog_id: 1 }, { unique: true })
-db.chat_channel_megagroup_test.drop()
+db.collection.drop()

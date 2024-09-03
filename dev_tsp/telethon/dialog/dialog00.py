@@ -37,5 +37,5 @@ async def detect_dialog_type(dialog_id: int):
 
 
 if __name__ == '__main__':
-    asyncio.get_event_loop().run_until_complete(export_dialog())
-    # asyncio.get_event_loop().run_until_complete(detect_dialog_type())
+    # asyncio.get_event_loop().run_until_complete(export_dialog())
+    asyncio.get_event_loop().run_until_complete(detect_dialog_type(-1002220182058))
