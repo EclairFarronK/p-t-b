@@ -16,7 +16,6 @@ keyboard = [
 ]
 
 
-# 参数为list，返回一个
 def assemble(result_list: List[dict]) -> str:
     message = 'result:\n'
     for i in result_list:
@@ -36,17 +35,17 @@ def escape(string: str) -> str:
     return re.sub(r'([\(\)\-\.])', r'\\\1', string)
 
 
-# 查询数据库，然后将消息返回
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
     # send_message
     try:
+        # todo chat_id设置为dynamic
         await context.bot.send_message(chat_id=7188701260, text=text)
     except Exception as e:
         print(f'An error occurred: {e}')
 
     # todo sleep
-    await asyncio.sleep(delay=2)
+    # await asyncio.sleep(delay=2)
 
     # search
     result_list = list(
@@ -54,7 +53,6 @@ async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                             {'_id': 0, 'title': 1, 'count': 1, 'username': 1}).limit(20))
     message = assemble(result_list)
 
-    # todo 最好先设置一个返回的模板，到时候直接往里面填就行了
     await update.message.reply_text(text=message,
                                     reply_markup=InlineKeyboardMarkup(keyboard),
                                     parse_mode=ParseMode.MARKDOWN_V2,

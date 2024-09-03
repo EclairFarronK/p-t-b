@@ -1,7 +1,6 @@
 import re
 from typing import List
 from datetime import datetime
-
 from dev_tsp.mongodb.connection import mongoClient
 
 db = mongoClient['telegram_db']
@@ -28,6 +27,7 @@ def save(usernames: List[dict]):
              'state': 1} for username in
             usernames]
     try:
+        # ordered=Falsez
         result = db.chat_channel_megagroup.insert_many(data, ordered=False)
         print('Inserted IDs:', result.inserted_ids)
     except Exception as e:

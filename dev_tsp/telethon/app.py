@@ -52,7 +52,7 @@ async def main():
         async def handler(event):
             group_or_channel_list = extract_abc(event.message.text)
             print(group_or_channel_list)
-            # todo 看能不能使用批量来提高效率
+            # todo 批量插入
             for group_or_channel in group_or_channel_list:
                 if group_or_channel[0] == '👥':
                     result = await save_or_update(group_or_channel[1], group_or_channel[2], group_or_channel[3],

@@ -56,20 +56,19 @@ if __name__ == '__main__':
         proxy).get_updates_proxy(proxy).build()
 
     # /命令
-    application.add_handler(CommandHandler(command='start', callback=start))
+    # application.add_handler(CommandHandler(command='start', callback=start))
 
     # 普通消息
     application.add_handler(MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=search))
 
     # /命令
-    application.add_handler(CommandHandler(command='caps', callback=caps))
+    # application.add_handler(CommandHandler(command='caps', callback=caps))
 
     # inline模式，暂时还用不到
     # inline_caps_handler = InlineQueryHandler(inline_caps)
     # application.add_handler(inline_caps_handler)
 
     # Other handlers
-    unknown_handler = MessageHandler(filters=filters.COMMAND, callback=unknown)
-    application.add_handler(unknown_handler)
+    # application.add_handler(MessageHandler(filters=filters.COMMAND, callback=unknown))
 
     application.run_polling()

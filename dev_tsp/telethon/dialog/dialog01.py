@@ -7,8 +7,7 @@ from dev_tsp.mongodb.connection import mongoClient
 db = mongoClient['telegram_db']
 
 
-# todo 暂时每天手动一次
-# 同时用来记录所有的channel，megagroup
+# 根据session将所有的dialog中的megagroup和broadcast保存到数据库
 async def main():
     async with client:
         async for dialog in client.iter_dialogs():
