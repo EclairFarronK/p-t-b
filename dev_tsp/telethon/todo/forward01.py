@@ -1,14 +1,12 @@
 import asyncio
 from datetime import datetime
 from dev_tsp.telethon.signing_in import client
-from telethon.tl.types import MessageMediaPhoto, MessageMediaDocument
 from dev_tsp.mongodb.connection import mongoClient
+from telethon.tl.types import MessageMediaPhoto, MessageMediaDocument
 
 db = mongoClient['telegram_db']
 
 
-# todo 这里的media多一些，在telegram查看时，要少一点。
-#  迭代次数过多，中途失败了，很麻烦
 # 将entity中的media保存到database
 async def save_media(entity_id: int):
     async with client:
@@ -30,6 +28,7 @@ async def save_media(entity_id: int):
                     media = message.media
                     if media:
                         if isinstance(media, MessageMediaPhoto):
+                            # todo photo
                             messages_save.append({'message_id': message.id, 'media_id': media.photo.id})
                             messages_save_actually.add(media.photo.id)
                             print(f'MessageMediaPhoto:{media.photo.id}')
