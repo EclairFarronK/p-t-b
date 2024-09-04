@@ -31,11 +31,11 @@ async def save_media(entity_id: int):
                             # todo photo
                             messages_save.append({'message_id': message.id, 'media_id': media.photo.id})
                             messages_save_actually.add(media.photo.id)
-                            print(f'MessageMediaPhoto:{media.photo.id}')
+                            # print(f'MessageMediaPhoto:{media.photo.id}')
                         elif isinstance(media, MessageMediaDocument):
                             messages_save.append({'message_id': message.id, 'media_id': media.document.id})
                             messages_save_actually.add(media.document.id)
-                            print(f'MessageMediaDocument:{media.document.id}')
+                            # print(f'MessageMediaDocument:{media.document.id}')
                         else:
                             # telethon.tl.types.MessageMediaContact
                             print('media is unknown type')
@@ -66,8 +66,6 @@ async def save_media(entity_id: int):
         await client.run_until_disconnected()
 
 
-entity_id = -1002220182058
-entity_id = -1002175448714
-entity_id = -1001290788078
+entity_id = -4149606141
 if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(save_media(entity_id))
