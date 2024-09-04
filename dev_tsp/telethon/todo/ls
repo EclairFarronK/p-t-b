@@ -1,8 +1,0 @@
-Server sent a very old message with ID 7410449339333755925, ignoring (see FAQ for details)
-Traceback (most recent call last):
-  File "E:\project\python\p-t-b\dev_tsp\telethon\todo\forward01.py", line 50, in save_media
-    data = [{'entity_id': entity_id,
-  File "E:\project\python\p-t-b\dev_tsp\telethon\todo\forward01.py", line 52, in <listcomp>
-    'media_id': message.media.document.id if message.media.document
-AttributeError: 'MessageMediaPhoto' object has no attribute 'document'
-python-BaseException
