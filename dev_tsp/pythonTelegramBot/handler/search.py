@@ -5,7 +5,6 @@ from dev_tsp.mongodb.connection import mongoClient
 from telegram.ext import ContextTypes, CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
-# todo 最好能直接显示还有多少页，这个功能可以复用
 # todo 想好数据库中数据格式是什么样的？
 # todo 只需要管怎么从数据库中数据的结构什么样的，并且组装就行了
 db = mongoClient['telegram_db']
