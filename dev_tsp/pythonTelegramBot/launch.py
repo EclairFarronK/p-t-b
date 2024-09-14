@@ -1,7 +1,7 @@
 import yaml
 import logging
 from uuid import uuid4
-from handler.search import search
+from handler.search import callback_search, callback_search_page
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, CallbackQueryHandler
 
@@ -59,7 +59,9 @@ if __name__ == '__main__':
     # application.add_handler(CommandHandler(command='start', callback=start))
 
     # 普通消息
-    application.add_handler(MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=search))
+    # todo & (~filters.COMMAND)怎么实现的？
+    application.add_handler(MessageHandler(filters=filters.TEXT & (~filters.COMMAND), callback=callback_search))
+    application.add_handler(CallbackQueryHandler(callback=callback_search_page))
 
     # /命令
     # application.add_handler(CommandHandler(command='caps', callback=caps))

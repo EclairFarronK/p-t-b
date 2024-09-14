@@ -1,19 +1,19 @@
-import asyncio
 import re
 from typing import List
 from telegram.constants import ParseMode
 from dev_tsp.mongodb.connection import mongoClient
+from telegram.ext import ContextTypes, CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import ContextTypes, Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 
 db = mongoClient['telegram_db']
 keyboard = [
     [
-        InlineKeyboardButton("选项 1", callback_data='1'),
-        InlineKeyboardButton("选项 2", callback_data='2'),
+        InlineKeyboardButton("上一页", callback_data='1'),
+        InlineKeyboardButton("下一页", callback_data='2'),
     ],
     [InlineKeyboardButton("选项 3", callback_data='3')],
 ]
+page_size = 7
 
 
 def assemble(result_list: List[dict]) -> str:
@@ -35,25 +35,79 @@ def escape(string: str) -> str:
     return re.sub(r'([\(\)\-\.])', r'\\\1', string)
 
 
-async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
+async def callback_search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # send_message
+    text = update.message.text
     try:
+        # todo 发送消息给客户端，客户端发送消息给其他bot，然后将数据返回给数据库，这一步可以省略，直接爬虫爬取关键字就行了，
         # todo chat_id设置为dynamic
         await context.bot.send_message(chat_id=7188701260, text=text)
     except Exception as e:
         print(f'An error occurred: {e}')
 
-    # todo sleep
-    # await asyncio.sleep(delay=2)
+    #
+    page_num = 1
+    await show_items(update=update, context=context, text=text, page_num=page_num)
 
-    # search
-    result_list = list(
-        db.chat_channel_megagroup_test.find({'title': {'$regex': f'{text}'}},
-                                            {'_id': 0, 'title': 1, 'count': 1, 'username': 1}).limit(20))
+
+#
+async def show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, page_num: int):
+    # 第一次查询
+    result_list = await search_from_db(text, page_num, page_size)
+    total = await get_total(text)
+    total_page = total + page_size - 1
     message = assemble(result_list)
 
-    await update.message.reply_text(text=message,
-                                    reply_markup=InlineKeyboardMarkup(keyboard),
-                                    parse_mode=ParseMode.MARKDOWN_V2,
-                                    disable_web_page_preview=True)
+    # 构建翻页按钮
+    buttons = []
+    if page_num > 1:
+        buttons.append(InlineKeyboardButton('Previous', callback_data=f'Previous_{page_num}_{text}'))
+    if page_num < total_page:
+        buttons.append(InlineKeyboardButton('Next', callback_data=f'Next_{page_num}_{text}'))
+    reply_markup = InlineKeyboardMarkup([buttons])
+
+    if update.callback_query:
+        await update.callback_query.edit_message_text(text=message,
+                                                      reply_markup=reply_markup,
+                                                      parse_mode=ParseMode.MARKDOWN_V2,
+                                                      disable_web_page_preview=True)
+    else:
+        await update.message.reply_text(text=message,
+                                        reply_markup=reply_markup,
+                                        parse_mode=ParseMode.MARKDOWN_V2,
+                                        disable_web_page_preview=True)
+
+
+async def callback_search_page(update: Update, context: CallbackContext):
+    """处理翻页按钮的回调"""
+    query = update.callback_query
+    query_data = query.data.split('_')
+
+    # 当前页码
+    action = query_data[0]  # "prev" or "next"
+    current_page = int(query_data[1])
+    text = query_data[2]
+
+    # 计算新页码
+    if action == 'Previous':
+        new_page = current_page - 1
+    elif action == 'Next':
+        new_page = current_page + 1
+
+    # 显示新页面的数据
+    await show_items(update=update, context=context, text=text, page_num=new_page)
+
+
+async def search_from_db(text: str, page_num: int, page_size: int):
+    skip_count = (page_num - 1) * page_size
+    result_list = list(
+        db.chat_channel_megagroup_test.find({'title': {'$regex': f'{text}'}},
+                                            {'_id': 0, 'title': 1, 'count': 1, 'username': 1})
+        .skip(skip_count)
+        .limit(page_size))
+    return result_list
+
+
+async def get_total(text: str):
+    total = db.chat_channel_megagroup_test.count_documents({'title': {'$regex': f'{text}'}})
+    return total
