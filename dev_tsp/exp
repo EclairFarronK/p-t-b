@@ -1,0 +1,13 @@
+1、使用Windows的wsl功能
+    1、开启wsl
+    2、设置默认为wsl2
+    3、在应用商店下载
+    4、下载补丁
+    5、启动
+    6、wsl -l -v 查看版本
+    7、cmd shell:startup将下面的启动脚本设置进去
+    8、@echo off
+       wsl -d Ubuntu-18.04
+2、使用docker-compose
+    1、直接apt安装docker-compose
+    2、

@@ -1,3 +1,7 @@
+tsp 199409_aD
+telegram_dev 199409_aD
+db.createUser({user: 'telegram_dev', pwd: '199409_aD', roles: [{role: "readWrite", db: "telegram_db"}]});
+
 创建数据库脚本：
     : 1表示升序降序
     db.chat_channel_megagroup.createIndex({username: 1}, {unique: true})

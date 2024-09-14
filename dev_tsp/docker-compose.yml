@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  #sudo docker cp mongodb:/etc/mongod.conf.orig /dev_tsp/mongodb/etc/mongod.conf
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - /dev_tsp/mongodb/data/db:/data/db
+      - /dev_tsp/mongodb/etc/mongod.conf:/etc/mongod.conf
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tsp
+      MONGO_INITDB_ROOT_PASSWORD: 199409_aD
+#    command: [ "mongod", "--config", "/etc/mongod.conf" ]
