@@ -5,6 +5,7 @@ from dev_tsp.mongodb.connection import mongoClient
 from telegram.ext import ContextTypes, CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
+# todo 如果关键字发送给其他bot，人家也是返回一页，怎么爬取到后面的数据？
 # todo 想好数据库中数据格式是什么样的？
 # todo 只需要管怎么从数据库中数据的结构什么样的，并且组装就行了
 db = mongoClient['telegram_db']
